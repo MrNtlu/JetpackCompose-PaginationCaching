@@ -1,6 +1,7 @@
 package com.mrntlu.jetpackcompose_paginationcaching
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -20,13 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    /* Sources
-    https://www.youtube.com/watch?v=dqj9aj-Z898&ab_channel=Stevdza-San
-    https://www.youtube.com/watch?v=3yIIiaDN0CI&ab_channel=HimanshuGaur
-    https://developer.android.com/topic/libraries/architecture/paging/v3-network-db
-    https://github.com/MrNtlu/PassVault/blob/master/app/src/main/java/com/mrntlu/PassVault/utils/NetworkBoundResource.kt
-     */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +60,8 @@ fun MainScreen() {
             }
         }
 
-        val loadState = articles.loadState
+        val loadState = articles.loadState.source
+
         if (loadState.refresh == LoadState.Loading) {
             item {
                 Column(

@@ -5,6 +5,8 @@ import androidx.paging.PagingState
 import com.mrntlu.jetpackcompose_paginationcaching.models.Article
 import com.mrntlu.jetpackcompose_paginationcaching.service.NewsApiService
 import kotlinx.coroutines.delay
+import retrofit2.HttpException
+import java.io.IOException
 
 /***
  * Defines the source of data and how to retrive data from that source.
@@ -43,7 +45,9 @@ class NewsPagingSource(
                 prevKey = prevKey,
                 nextKey = nextKey,
             )
-        } catch (error: Exception) {
+        } catch (error: IOException) {
+            LoadResult.Error(error)
+        } catch (error: HttpException) {
             LoadResult.Error(error)
         }
     }

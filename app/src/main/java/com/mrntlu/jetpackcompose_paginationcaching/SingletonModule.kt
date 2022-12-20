@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.mrntlu.jetpackcompose_paginationcaching.service.NewsApiService
 import com.mrntlu.jetpackcompose_paginationcaching.service.NewsDao
 import com.mrntlu.jetpackcompose_paginationcaching.service.NewsDatabase
+import com.mrntlu.jetpackcompose_paginationcaching.service.RemoteKeysDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,4 +38,8 @@ class SingletonModule {
     @Singleton
     @Provides
     fun provideNewsDao(newsDatabase: NewsDatabase): NewsDao = newsDatabase.getNewsDao()
+
+    @Singleton
+    @Provides
+    fun provideRemoteKeysDao(newsDatabase: NewsDatabase): RemoteKeysDao = newsDatabase.getRemoteKeysDao()
 }

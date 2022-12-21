@@ -2,9 +2,9 @@ package com.mrntlu.jetpackcompose_paginationcaching
 
 import android.content.Context
 import androidx.room.Room
-import com.mrntlu.jetpackcompose_paginationcaching.service.NewsApiService
-import com.mrntlu.jetpackcompose_paginationcaching.service.NewsDao
-import com.mrntlu.jetpackcompose_paginationcaching.service.NewsDatabase
+import com.mrntlu.jetpackcompose_paginationcaching.service.MoviesApiService
+import com.mrntlu.jetpackcompose_paginationcaching.service.MoviesDao
+import com.mrntlu.jetpackcompose_paginationcaching.service.MoviesDatabase
 import com.mrntlu.jetpackcompose_paginationcaching.service.RemoteKeysDao
 import dagger.Module
 import dagger.Provides
@@ -21,25 +21,25 @@ class SingletonModule {
 
     @Singleton
     @Provides
-    fun provideRetrofitInstance(): NewsApiService =
+    fun provideRetrofitInstance(): MoviesApiService =
         Retrofit.Builder()
-            .baseUrl("https://newsapi.org/v2/")
+            .baseUrl("https://api.themoviedb.org/3/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(NewsApiService::class.java)
+            .create(MoviesApiService::class.java)
 
     @Singleton
     @Provides
-    fun provideNewsDatabase(@ApplicationContext context: Context): NewsDatabase =
+    fun provideMovieDatabase(@ApplicationContext context: Context): MoviesDatabase =
         Room
-            .databaseBuilder(context, NewsDatabase::class.java, "news_database")
+            .databaseBuilder(context, MoviesDatabase::class.java, "movies_database")
             .build()
 
     @Singleton
     @Provides
-    fun provideNewsDao(newsDatabase: NewsDatabase): NewsDao = newsDatabase.getNewsDao()
+    fun provideMoviesDao(moviesDatabase: MoviesDatabase): MoviesDao = moviesDatabase.getMoviesDao()
 
     @Singleton
     @Provides
-    fun provideRemoteKeysDao(newsDatabase: NewsDatabase): RemoteKeysDao = newsDatabase.getRemoteKeysDao()
+    fun provideRemoteKeysDao(moviesDatabase: MoviesDatabase): RemoteKeysDao = moviesDatabase.getRemoteKeysDao()
 }

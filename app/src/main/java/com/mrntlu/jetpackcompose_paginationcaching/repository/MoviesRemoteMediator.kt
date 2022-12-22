@@ -42,7 +42,7 @@ class MoviesRemoteMediator (
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
 
-        return if (System.currentTimeMillis() - moviesDatabase.getRemoteKeysDao().getCreationTime() < cacheTimeout) {
+        return if (System.currentTimeMillis() - (moviesDatabase.getRemoteKeysDao().getCreationTime() ?: 0) < cacheTimeout) {
             // Cached data is up-to-date, so there is no need to re-fetch
             // from the network.
             InitializeAction.SKIP_INITIAL_REFRESH
@@ -142,7 +142,7 @@ class MoviesRemoteMediator (
             val endOfPaginationReached = movies.isEmpty()
 
             moviesDatabase.withTransaction {
-                if (loadType == LoadType.REFRESH && movies.isNotEmpty()) { //New query so we can delete everything.
+                if (loadType == LoadType.REFRESH) {
                     moviesDatabase.getRemoteKeysDao().clearRemoteKeys()
                     moviesDatabase.getMoviesDao().clearAllMovies()
                 }
